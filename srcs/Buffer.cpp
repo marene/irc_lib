@@ -6,7 +6,7 @@
 /*   By: marene <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 14:23:14 by marene            #+#    #+#             */
-/*   Updated: 2016/10/27 15:33:36 by marene           ###   ########.fr       */
+/*   Updated: 2016/10/27 20:21:01 by marene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,22 @@ ssize_t				IrcCircularBuffer::write(char c)
 	}
 	else
 		return -1;
+}
+
+ssize_t				IrcCircularBuffer::write(std::string const& str)
+{
+	size_t	i = 0;
+
+	if (!this->isFull(str.size()))
+	{
+		while (i < str.size())
+		{
+			this->write(str[i]);
+			++i;
+		}
+		return str.size();
+	}
+	return (-1);
 }
 
 ssize_t				IrcCircularBuffer::read(char& c)

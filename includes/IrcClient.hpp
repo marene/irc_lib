@@ -6,7 +6,7 @@
 /*   By: marene <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 15:36:32 by marene            #+#    #+#             */
-/*   Updated: 2016/10/27 18:53:12 by marene           ###   ########.fr       */
+/*   Updated: 2016/10/27 20:17:02 by marene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ class		IrcClientAbstract
 		IrcClientAbstract(std::string const& hostname, int port);
 		~IrcClientAbstract();
 
+		bool							cmdUser(std::string const& username, std::string const& hostname,
+											std::string const& servername, std::string const& realname);
+		bool							cmdNick(std::string const& nick);
 		bool							isConnected() const;
 };
 

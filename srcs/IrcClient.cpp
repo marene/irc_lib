@@ -6,7 +6,7 @@
 /*   By: marene <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 15:43:14 by marene            #+#    #+#             */
-/*   Updated: 2016/10/27 19:37:36 by marene           ###   ########.fr       */
+/*   Updated: 2016/10/27 20:21:16 by marene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,11 @@ IrcClientAbstract::IrcClientAbstract(std::string const& hostname, int port)
 
 	this->_socket = new IrcClientSocket(hostname, port);
 	this->_buff = new IrcCircularBuffer();
-	if (this->_socket->isConnected())
+	if (this->isConnected())
 	{
-		while (1)
-		{
-			if (this->_socket->receive(s) > 0)
-			std::cout << "received: " << s << std::endl;
-		}
+		this->cmdNick("marene");
+		this->cmdUser("bot", "bot", "bot", "bot");
 	}
-	else
-		std::cout << "No connection!" << std::endl;
 }
 
 IrcClientAbstract::~IrcClientAbstract()
@@ -43,4 +38,27 @@ IrcClientAbstract::~IrcClientAbstract()
 bool			IrcClientAbstract::isConnected() const
 {
 	return this->_socket->isConnected();
+}
+
+bool			IrcClientAbstract::cmdUser(std::string const& username, std::string const& hostname, std::string const& servername, std::string const& realname)
+{
+	this->_buff->write("USER ");
+	this->_buff->write(' ');
+	this->_buff->write(username);
+	this->_buff->write(' ');
+	this->_buff->write(hostname);
+	this->_buff->write(' ');
+	this->_buff->write(servername);
+	this->_buff->write(" :");
+	this->_buff->write(realname);
+	this->_buff->write("\r\n");
+	return true;
+}
+
+bool							IrcClientAbstract::cmdNick(std::string const& nick)
+{
+	this->_buff->write("NICK ");
+	this->_buff->write(nick);
+	this->_buff->write("\r\n");
+	return true;
 }

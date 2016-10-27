@@ -6,7 +6,7 @@
 /*   By: marene <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 13:23:02 by marene            #+#    #+#             */
-/*   Updated: 2016/10/27 15:30:27 by marene           ###   ########.fr       */
+/*   Updated: 2016/10/27 20:05:37 by marene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class		BufferInterface
 		virtual ~BufferInterface();
 
 		virtual ssize_t				write(char c) = 0;
-//		virtual ssize_t				write(std::string const& str) = 0;
+		virtual ssize_t				write(std::string const& str) = 0;
 		virtual ssize_t				read(char& c) = 0;
 //		virtual ssize_t				read(std::string& str) = 0;
 };
@@ -59,7 +59,7 @@ class		IrcCircularBuffer: public CircularBufferAbstract
 		~IrcCircularBuffer();
 
 		ssize_t						write(char c);
-//		ssize_t						write(std::string const& str);
+		ssize_t						write(std::string const& str);
 		ssize_t						read(char& c);
 //		ssize_t						read(std::string& str);
 };
