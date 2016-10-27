@@ -4,7 +4,10 @@ INSTALL_PATH =		/Users/marene/projects/irc_lib
 SRCS_DIR =			./srcs/
 INCLUDES_DIR =		./includes/
 OBJ_DIR =			./obj/
-SRCS =				Socket.cpp
+SRCS =				Buffer.cpp\
+					IrcClient.cpp\
+					Socket.cpp
+
 OBJ =				$(SRCS:.cpp=.o)
 CC =				clang++
 CFLAGS =			-Wall -Wextra -Werror -std=c++11 -g -I $(INCLUDES_DIR) -o

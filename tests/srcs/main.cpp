@@ -2,12 +2,9 @@
 
 int		main(void)
 {
-	std::string		buff = std::string("Test");
-	std::string		hostname = std::string("Toto");
-	IrcClientSocket* socket = new IrcClientSocket::IrcClientSocket(hostname, 8080);
+	std::string			buff = std::string("Test");
+	std::string			hostname = std::string("irc.root-me.org");
+	IrcClientAbstract*	client = new IrcClientAbstract::IrcClientAbstract(hostname, 6667);
 
-	socket->send(buff);
-	socket->receive(buff);
-	std::cout << "received : " << buff << std::endl;
-	return (0);
+	return (client->isConnected());
 }
