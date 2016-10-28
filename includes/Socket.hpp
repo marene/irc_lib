@@ -6,7 +6,7 @@
 /*   By: marene <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 13:22:58 by marene            #+#    #+#             */
-/*   Updated: 2016/10/27 19:09:17 by marene           ###   ########.fr       */
+/*   Updated: 2016/10/28 16:31:06 by marene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ class		TcpClientSocketAbstract: public SocketInterface
 		TcpClientSocketAbstract(); /// _hostname defaults to "localhost", _port defaults to 4242
 		TcpClientSocketAbstract(std::string const& hostname, int32_t port);
 		~TcpClientSocketAbstract();
+
+		int						getSocketFd() const;
 };
 
 class		IrcClientSocket: public TcpClientSocketAbstract
@@ -56,6 +58,7 @@ class		IrcClientSocket: public TcpClientSocketAbstract
 	public:
 		IrcClientSocket();
 		IrcClientSocket(std::string const& hostname, int32_t port);
+
 		ssize_t					send(std::string const& buff);
 		ssize_t					receive(std::string& buff);
 		bool					isConnected() const;

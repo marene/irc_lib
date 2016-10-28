@@ -6,7 +6,7 @@
 /*   By: marene <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 13:23:02 by marene            #+#    #+#             */
-/*   Updated: 2016/10/27 20:05:37 by marene           ###   ########.fr       */
+/*   Updated: 2016/10/28 17:56:56 by marene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <string>
 # include <array>
+# include <iostream>
 
 class		BufferInterface
 {
@@ -25,7 +26,7 @@ class		BufferInterface
 		virtual ssize_t				write(char c) = 0;
 		virtual ssize_t				write(std::string const& str) = 0;
 		virtual ssize_t				read(char& c) = 0;
-//		virtual ssize_t				read(std::string& str) = 0;
+		virtual ssize_t				read(std::string& str) = 0;
 };
 
 class		CircularBufferAbstract: public BufferInterface
@@ -36,6 +37,8 @@ class		CircularBufferAbstract: public BufferInterface
 		size_t			_end;
 		size_t			_size;
 		char*			_buff;
+
+		virtual size_t	_strstr(std::string const& sub) const = 0;
 
 	public:
 		CircularBufferAbstract();
@@ -53,6 +56,8 @@ class		CircularBufferAbstract: public BufferInterface
 
 class		IrcCircularBuffer: public CircularBufferAbstract
 {
+	protected:
+		size_t						_strstr(std::string const& sub) const;
 	public:
 		IrcCircularBuffer();
 		IrcCircularBuffer(size_t size);
@@ -61,7 +66,9 @@ class		IrcCircularBuffer: public CircularBufferAbstract
 		ssize_t						write(char c);
 		ssize_t						write(std::string const& str);
 		ssize_t						read(char& c);
-//		ssize_t						read(std::string& str);
+		ssize_t						read(std::string& str);
+
+		static const std::string	crlf;
 };
 
 #endif /* !BUFFER_HPP */

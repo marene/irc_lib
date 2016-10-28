@@ -6,7 +6,7 @@
 /*   By: marene <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/26 14:54:47 by marene            #+#    #+#             */
-/*   Updated: 2016/10/27 19:36:57 by marene           ###   ########.fr       */
+/*   Updated: 2016/10/28 17:30:17 by marene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ bool			TcpClientSocketAbstract::_connect()
 	return false;
 }
 
+int				TcpClientSocketAbstract::getSocketFd() const
+{
+	return this->_socket;
+}
+
 IrcClientSocket::IrcClientSocket(): TcpClientSocketAbstract::TcpClientSocketAbstract()
 {}
 
@@ -68,7 +73,7 @@ IrcClientSocket::IrcClientSocket(std::string const& hostname, int32_t port): Tcp
 ssize_t			IrcClientSocket::send(std::string const& buff)
 {
 	std::cout << "sending [" << buff << "]" << std::endl;
-	return buff.size();
+	return ::send(this->_socket, buff.c_str(), buff.size(), 0);
 }
 
 ssize_t			IrcClientSocket::receive(std::string& s)

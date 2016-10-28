@@ -4,7 +4,12 @@ int		main(void)
 {
 	std::string			buff = std::string("Test");
 	std::string			hostname = std::string("irc.root-me.org");
-	IrcClientAbstract*	client = new IrcClientAbstract::IrcClientAbstract(hostname, 6667);
+	int					port = 6667;
+	IrcClientAbstract*	client = new IrcClientBot::IrcClientBot(hostname, port);
 
+	if (!client->isConnected())
+		std::cout << "client did not connect! :(" << std::endl;
+	else
+		std::cout << "client connected!" << std::endl;
 	return (client->isConnected());
 }
