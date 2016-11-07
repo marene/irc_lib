@@ -6,7 +6,7 @@
 /*   By: marene <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 13:23:02 by marene            #+#    #+#             */
-/*   Updated: 2016/10/28 17:56:56 by marene           ###   ########.fr       */
+/*   Updated: 2016/11/07 15:50:54 by marene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ class		CircularBufferAbstract: public BufferInterface
 		virtual bool				isEmpty() const;
 		virtual bool				isFull() const;
 		virtual bool				isFull(size_t size) const;
+		virtual bool				isReadable() const = 0;
 };
 
 class		IrcCircularBuffer: public CircularBufferAbstract
@@ -67,6 +68,7 @@ class		IrcCircularBuffer: public CircularBufferAbstract
 		ssize_t						write(std::string const& str);
 		ssize_t						read(char& c);
 		ssize_t						read(std::string& str);
+		virtual bool				isReadable() const;
 
 		static const std::string	crlf;
 };

@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "irclib.hpp"
 
 int		main(void)
@@ -6,10 +7,18 @@ int		main(void)
 	std::string			hostname = std::string("irc.root-me.org");
 	int					port = 6667;
 	IrcClientAbstract*	client = new IrcClientBot::IrcClientBot(hostname, port);
-
-	if (!client->isConnected())
-		std::cout << "client did not connect! :(" << std::endl;
-	else
-		std::cout << "client connected!" << std::endl;
+ 
+	try
+	{
+		client->connect();
+		client->run();
+	}
+	catch (std::runtime_error& e)
+	{
+		std::cout << e.what() << std::endl;
+		delete client;
+		client = NULL;
+		return 1;
+	}
 	return (client->isConnected());
 }

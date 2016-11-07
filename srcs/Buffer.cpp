@@ -6,11 +6,12 @@
 /*   By: marene <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 14:23:14 by marene            #+#    #+#             */
-/*   Updated: 2016/10/28 18:00:49 by marene           ###   ########.fr       */
+/*   Updated: 2016/11/07 16:40:27 by marene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Buffer.hpp"
+#include <unistd.h> // just to do some debug
 
 BufferInterface::BufferInterface()
 {}
@@ -18,14 +19,16 @@ BufferInterface::BufferInterface()
 BufferInterface::~BufferInterface()
 {}
 
-CircularBufferAbstract::CircularBufferAbstract(): _buffSize(2048), _start(0), _end(2048), _size(0)
+CircularBufferAbstract::CircularBufferAbstract(): _buffSize(2048), _start(0), _end(0), _size(0)
 {
 	this->_buff = new char[sizeof(char) * this->_buffSize];
+	memset(this->_buff, 0, this->_buffSize);
 }
 
-CircularBufferAbstract::CircularBufferAbstract(size_t size): _buffSize(size), _start(0), _end(2048), _size(0)
+CircularBufferAbstract::CircularBufferAbstract(size_t size): _buffSize(size), _start(0), _end(0), _size(0)
 {
 	this->_buff = new char[sizeof(char) * this->_buffSize];
+	memset(this->_buff, 0, this->_buffSize);
 }
 
 CircularBufferAbstract::~CircularBufferAbstract()
@@ -92,7 +95,7 @@ size_t				IrcCircularBuffer::_strstr(std::string const& sub) const
 		{
 			j = 0;
 			index = (this->_start + i) % this->_buffSize;
-			while (this->_buff[index] == sub[j])
+			while (this->_buff[index] == sub[j] && j < sub.size())
 			{
 				index = (index + 1) % this->_buffSize;
 				++j;
@@ -139,7 +142,7 @@ ssize_t				IrcCircularBuffer::read(char& c)
 {
 	if (!this->isEmpty())
 	{
-		c = this->_start;
+		c = this->_buff[this->_start];
 		this->_start = (this->_start + 1) % this->_buffSize;
 		--this->_size;
 		return 1;
@@ -154,7 +157,7 @@ ssize_t				IrcCircularBuffer::read(std::string& s)
 	size_t		retSize;
 	char		c;
 
-	if (this->_size > s.size())
+	if (!this->isEmpty())
 	{
 		if ((retSize = this->_strstr(IrcCircularBuffer::crlf)) <= this->_size && retSize > 0)
 		{
@@ -169,4 +172,9 @@ ssize_t				IrcCircularBuffer::read(std::string& s)
 		}
 	}
 	return -1;
+}
+
+bool				IrcCircularBuffer::isReadable() const
+{
+	return (this->_strstr(IrcCircularBuffer::crlf) > 0);
 }

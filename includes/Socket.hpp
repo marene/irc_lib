@@ -6,7 +6,7 @@
 /*   By: marene <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/10/27 13:22:58 by marene            #+#    #+#             */
-/*   Updated: 2016/10/28 16:31:06 by marene           ###   ########.fr       */
+/*   Updated: 2016/11/07 14:15:19 by marene           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ class		SocketInterface
 
 class		TcpClientSocketAbstract: public SocketInterface
 {
-	private:
-		bool					_connect();
 	protected:
 		std::string				_hostname;
 		in_addr_t				_addr;
@@ -51,6 +49,7 @@ class		TcpClientSocketAbstract: public SocketInterface
 		~TcpClientSocketAbstract();
 
 		int						getSocketFd() const;
+		bool					connect();
 };
 
 class		IrcClientSocket: public TcpClientSocketAbstract
